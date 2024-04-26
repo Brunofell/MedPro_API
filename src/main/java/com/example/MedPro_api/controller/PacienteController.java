@@ -1,7 +1,6 @@
 package com.example.MedPro_api.controller;
 
 import com.example.MedPro_api.DTO.DadosCadastroPaciente;
-import com.example.MedPro_api.entity.Endereco;
 import com.example.MedPro_api.entity.Paciente;
 import com.example.MedPro_api.repository.PacienteRepository;
 import jakarta.validation.Valid;
