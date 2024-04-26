@@ -2,6 +2,7 @@ package com.example.MedPro_api.entity;
 
 import com.example.MedPro_api.DTO.DadosCadastroPaciente;
 import com.example.MedPro_api.DTO.DadosEndereco;
+import com.example.MedPro_api.DTO.DadosUpdatePaciente;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,5 +39,23 @@ public class Paciente {
 //                dados.endereco().complemento()
 //                ); OU... cria o construtor
 
+    }
+
+    public void atualizarInfos(DadosUpdatePaciente dados) {
+        if(dados.nome() != null){
+            this.nome = dados.nome();
+        }
+        if(dados.email() != null){
+            this.email = dados.email();
+        }
+        if(dados.telefone() != null){
+            this.telefone = dados.telefone();
+        }
+        if(dados.cpf() != null){
+            this.cpf = dados.cpf();
+        }
+        if(dados.endereco() != null){
+            this.endereco.atualizaEndereco(dados.endereco());
+        }
     }
 }
