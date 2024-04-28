@@ -1,7 +1,7 @@
-package com.example.MedPro_api.DTO;
+package com.example.MedPro_api.DTO.paciente;
 
 import com.example.MedPro_api.entity.Endereco;
-import com.example.MedPro_api.entity.Paciente;
+import com.example.MedPro_api.entity.paciente.Paciente;
 
 public record DadosListagemPaciente(
         Long id,

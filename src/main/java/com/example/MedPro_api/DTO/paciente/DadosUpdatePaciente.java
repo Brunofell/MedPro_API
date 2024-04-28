@@ -1,6 +1,5 @@
-package com.example.MedPro_api.DTO;
+package com.example.MedPro_api.DTO.paciente;
 
-import com.example.MedPro_api.entity.Endereco;
 import jakarta.validation.constraints.NotNull;
 
 public record DadosUpdatePaciente(

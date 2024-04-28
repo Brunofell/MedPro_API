@@ -1,6 +1,6 @@
-package com.example.MedPro_api.repository;
+package com.example.MedPro_api.repository.paciente;
 
-import com.example.MedPro_api.entity.Paciente;
+import com.example.MedPro_api.entity.paciente.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 // long atributo da chave primaria
 

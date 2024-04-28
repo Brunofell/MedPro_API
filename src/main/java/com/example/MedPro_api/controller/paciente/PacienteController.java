@@ -1,11 +1,10 @@
-package com.example.MedPro_api.controller;
+package com.example.MedPro_api.controller.paciente;
 
-import com.example.MedPro_api.DTO.DadosCadastroPaciente;
-import com.example.MedPro_api.DTO.DadosListagemPaciente;
-import com.example.MedPro_api.DTO.DadosUpdatePaciente;
-import com.example.MedPro_api.entity.Endereco;
-import com.example.MedPro_api.entity.Paciente;
-import com.example.MedPro_api.repository.PacienteRepository;
+import com.example.MedPro_api.DTO.paciente.DadosCadastroPaciente;
+import com.example.MedPro_api.DTO.paciente.DadosListagemPaciente;
+import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
+import com.example.MedPro_api.entity.paciente.Paciente;
+import com.example.MedPro_api.repository.paciente.PacienteRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

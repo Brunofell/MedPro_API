@@ -1,8 +1,8 @@
-package com.example.MedPro_api.entity;
+package com.example.MedPro_api.entity.paciente;
 
-import com.example.MedPro_api.DTO.DadosCadastroPaciente;
-import com.example.MedPro_api.DTO.DadosEndereco;
-import com.example.MedPro_api.DTO.DadosUpdatePaciente;
+import com.example.MedPro_api.DTO.paciente.DadosCadastroPaciente;
+import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
+import com.example.MedPro_api.entity.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 

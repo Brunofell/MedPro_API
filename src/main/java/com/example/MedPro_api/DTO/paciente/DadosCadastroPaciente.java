@@ -1,4 +1,4 @@
-package com.example.MedPro_api.DTO;
+package com.example.MedPro_api.DTO.paciente;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

@@ -1,6 +1,6 @@
 package com.example.MedPro_api.entity;
 
-import com.example.MedPro_api.DTO.DadosEndereco;
+import com.example.MedPro_api.DTO.paciente.DadosEndereco;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
