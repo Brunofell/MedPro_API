@@ -1,7 +1,7 @@
 package com.example.MedPro_api.DTO.consulta.validacoes;
 
 import com.example.MedPro_api.DTO.consulta.DadosAgendamentoConsulta;
-import com.example.MedPro_api.Exception.ValidacaoException;
+import com.example.MedPro_api.infra.Exception.ValidacaoException;
 import com.example.MedPro_api.repository.consulta.ConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

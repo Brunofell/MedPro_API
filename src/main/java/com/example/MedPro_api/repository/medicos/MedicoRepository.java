@@ -4,6 +4,7 @@ import com.example.MedPro_api.DTO.medico.Especialidade;
 import com.example.MedPro_api.entity.medico.Medico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,6 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
         """)
     Medico escolherMedicoAleatorioLivreNaData(Especialidade especialidade, LocalDateTime data);
 
-    
+    UserDetails findByEmail(String email);
 }
 

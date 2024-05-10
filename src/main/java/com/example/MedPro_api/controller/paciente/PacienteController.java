@@ -4,10 +4,16 @@ import com.example.MedPro_api.DTO.paciente.DadosCadastroPaciente;
 import com.example.MedPro_api.DTO.paciente.DadosListagemPaciente;
 import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
 import com.example.MedPro_api.entity.paciente.Paciente;
+import com.example.MedPro_api.infra.security.authPaciente.DadosAuth;
+import com.example.MedPro_api.infra.security.authPaciente.DadosTokenJWT;
+import com.example.MedPro_api.infra.security.authPaciente.TokenServicePaciente;
 import com.example.MedPro_api.repository.paciente.PacienteRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +23,10 @@ import java.util.List;
 public class PacienteController {
     @Autowired
     private PacienteRepository repository;
+    @Autowired
+    private AuthenticationManager manager;
+    @Autowired
+    private TokenServicePaciente tokenService;
 
     @PostMapping
     @Transactional
@@ -47,5 +57,15 @@ public class PacienteController {
     @Transactional
     public void excluir(@PathVariable Long id){
         repository.deleteById(id);
+    }
+    @PostMapping("/login")
+    public ResponseEntity login(@Valid @RequestBody DadosAuth dados){
+        var authToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+        var authentication = manager.authenticate(authToken);
+
+        var tokenJWT = tokenService.gerarToken((Paciente) authentication.getPrincipal());
+
+
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }

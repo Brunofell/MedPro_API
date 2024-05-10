@@ -1,7 +1,7 @@
 package com.example.MedPro_api.DTO.consulta;
 
 import com.example.MedPro_api.DTO.consulta.validacoes.ValidadorAgendamentoDeConsulta;
-import com.example.MedPro_api.Exception.ValidacaoException;
+import com.example.MedPro_api.infra.Exception.ValidacaoException;
 import com.example.MedPro_api.entity.consulta.Consulta;
 import com.example.MedPro_api.entity.medico.Medico;
 import com.example.MedPro_api.repository.consulta.ConsultaRepository;

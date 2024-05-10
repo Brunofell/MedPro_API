@@ -1,9 +1,8 @@
 package com.example.MedPro_api.DTO.consulta.validacoes;
 
 import com.example.MedPro_api.DTO.consulta.DadosAgendamentoConsulta;
-import com.example.MedPro_api.Exception.ValidacaoException;
+import com.example.MedPro_api.infra.Exception.ValidacaoException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 

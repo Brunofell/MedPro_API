@@ -5,6 +5,14 @@ import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
 import com.example.MedPro_api.entity.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Collection;
+import java.util.List;
 
 @Table(name = "pacientes")
 @Entity(name = "Paciente")
@@ -12,12 +20,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Paciente {
+public class Paciente implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String email;
+    private String senha;
     private String telefone;
     private  String cpf;
     @Embedded
@@ -26,19 +35,10 @@ public class Paciente {
     public Paciente(DadosCadastroPaciente dados) {
         this.nome = dados.nome();
         this.email = dados.email();
+        this.senha = dados.senha();
         this.telefone = dados.telefone();
         this.cpf = dados.cpf();
         this.endereco = new Endereco(dados.endereco());
-//        this.endereco = new Endereco(
-//                dados.endereco().logradouro(),
-//                dados.endereco().numero(),
-//                dados.endereco().bairro(),
-//                dados.endereco().cep(),
-//                dados.endereco().cidade(),
-//                dados.endereco().uf(),
-//                dados.endereco().complemento()
-//                ); OU... cria o construtor
-
     }
 
     public void atualizarInfos(DadosUpdatePaciente dados) {
@@ -47,6 +47,9 @@ public class Paciente {
         }
         if(dados.email() != null){
             this.email = dados.email();
+        }
+        if(dados.senha() != null){
+            this.senha = dados.senha();
         }
         if(dados.telefone() != null){
             this.telefone = dados.telefone();
@@ -57,5 +60,40 @@ public class Paciente {
         if(dados.endereco() != null){
             this.endereco.atualizaEndereco(dados.endereco());
         }
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

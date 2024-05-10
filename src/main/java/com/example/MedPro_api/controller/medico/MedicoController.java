@@ -4,10 +4,19 @@ import com.example.MedPro_api.DTO.medico.DadosCadastroMedico;
 import com.example.MedPro_api.DTO.medico.DadosListagemMedico;
 import com.example.MedPro_api.DTO.medico.DadosUpdateMedico;
 import com.example.MedPro_api.entity.medico.Medico;
+import com.example.MedPro_api.entity.paciente.Paciente;
+import com.example.MedPro_api.infra.security.authMedico.DadosAuthMedico;
+import com.example.MedPro_api.infra.security.authMedico.TokenServiceMedico;
+import com.example.MedPro_api.infra.security.authPaciente.DadosAuth;
+import com.example.MedPro_api.infra.security.authPaciente.DadosTokenJWT;
+import com.example.MedPro_api.infra.security.authPaciente.TokenServicePaciente;
 import com.example.MedPro_api.repository.medicos.MedicoRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +26,10 @@ import java.util.List;
 public class MedicoController {
     @Autowired
     private MedicoRepository repository;
+    @Autowired
+    private AuthenticationManager manager;
+    @Autowired
+    private TokenServiceMedico tokenServiceMedico;
 
     @PostMapping
     @Transactional
@@ -26,10 +39,6 @@ public class MedicoController {
         System.out.println(dados);
     }
 
-//    @GetMapping
-//    public List<DadosListagemMedico> listarMedicos(){
-//        return repository.findAll().stream().map(DadosListagemMedico::new).toList();
-//    }
 
     @GetMapping // Exclusão lógica
     public List<DadosListagemMedico> listarMedicos(){
@@ -50,10 +59,15 @@ public class MedicoController {
         medico.excluir();
     }
 
-//    @DeleteMapping("/{id}")
-//    @Transactional
-//    public void excluir(@PathVariable Long id){
-//        repository.deleteById(id);
-//    }
+    @PostMapping("login")
+    public ResponseEntity login( @RequestBody @Valid DadosAuthMedico dadosAuthMedico){
+        var authToken = new UsernamePasswordAuthenticationToken(dadosAuthMedico.email(), dadosAuthMedico.senha());
+        var authentication =   manager.authenticate(authToken);
+
+        var tokenJWT = tokenServiceMedico.gerarToken((Medico) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+    }
+
 
 }

@@ -6,6 +6,7 @@ public record DadosListagemMedico(
         Long id,
         String nome,
         String email,
+        String senha,
         String telefone,
         String crm,
         Especialidade especialidade,
@@ -13,6 +14,6 @@ public record DadosListagemMedico(
 ) {
 
     public DadosListagemMedico(Medico medico){
-        this(medico.getId(), medico.getNome(), medico.getEmail(), medico.getTelefone(), medico.getCrm(), medico.getEspecialidade(), medico.getEndereco());
+        this(medico.getId(), medico.getNome(), medico.getEmail(), medico.getSenha(), medico.getTelefone(), medico.getCrm(), medico.getEspecialidade(), medico.getEndereco());
     }
 }
