@@ -5,10 +5,7 @@ import com.example.MedPro_api.DTO.medico.DadosUpdateMedico;
 import com.example.MedPro_api.DTO.medico.Especialidade;
 import com.example.MedPro_api.entity.Endereco;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +16,7 @@ import java.util.List;
 @Table(name = "medicos")
 @Entity(name = "Medico")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -28,6 +26,7 @@ public class Medico implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @Column(unique = true)
     private String email;
     private String senha;
     private String telefone;

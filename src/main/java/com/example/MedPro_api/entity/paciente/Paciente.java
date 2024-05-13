@@ -17,6 +17,7 @@ import java.util.List;
 @Table(name = "pacientes")
 @Entity(name = "Paciente")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -25,6 +26,7 @@ public class Paciente implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @Column(unique = true)
     private String email;
     private String senha;
     private String telefone;
