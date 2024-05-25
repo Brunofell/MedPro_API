@@ -3,6 +3,7 @@ package com.example.MedPro_api.controller.medico;
 import com.example.MedPro_api.DTO.medico.DadosCadastroMedico;
 import com.example.MedPro_api.DTO.medico.DadosListagemMedico;
 import com.example.MedPro_api.DTO.medico.DadosUpdateMedico;
+import com.example.MedPro_api.DTO.paciente.DadosListagemPaciente;
 import com.example.MedPro_api.entity.medico.Medico;
 import com.example.MedPro_api.entity.paciente.Paciente;
 import com.example.MedPro_api.infra.Exception.EmailDuplicadoException;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("medicos")
@@ -106,5 +108,15 @@ public class MedicoController {
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 
+    @GetMapping("/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<DadosListagemMedico> buscarPacientePorId(@PathVariable Long id) {
+        Optional<Medico> medicoOptional = repository.findById(id);
+        if (medicoOptional.isPresent()) {
+            return ResponseEntity.ok(new DadosListagemMedico(medicoOptional.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

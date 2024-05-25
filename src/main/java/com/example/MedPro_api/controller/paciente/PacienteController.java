@@ -22,6 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 // mensagem
 @RestController
 @RequestMapping("pacientes")
@@ -97,5 +99,16 @@ public class PacienteController {
         var tokenJWT = tokenService.gerarToken((Paciente) authentication.getPrincipal());
 
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<DadosListagemPaciente> buscarPacientePorId(@PathVariable Long id) {
+        Optional<Paciente> pacienteOptional = repository.findById(id);
+        if (pacienteOptional.isPresent()) {
+            return ResponseEntity.ok(new DadosListagemPaciente(pacienteOptional.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
