@@ -7,6 +7,7 @@ import com.example.MedPro_api.entity.medico.Medico;
 import com.example.MedPro_api.repository.consulta.ConsultaRepository;
 import com.example.MedPro_api.repository.medicos.MedicoRepository;
 import com.example.MedPro_api.repository.paciente.PacienteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,21 @@ public class AgendaDeConsultas {
         }
 
         return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());
+    }
+
+    @Transactional
+    public DadosDetalhamentoConsulta atualizarConsulta(DadosAtualizacaoConsulta dados) {
+        var consulta = consultaRepository.findById(dados.idConsulta())
+                .orElseThrow(() -> new ValidacaoException("Consulta não encontrada"));
+
+        var dadosAgendamento = new DadosAgendamentoConsulta(consulta.getMedico().getId(), consulta.getPaciente().getId(), null, dados.novaData());
+
+        validadores.forEach(v -> v.validar(dadosAgendamento)); // chamando os validadores
+
+        consulta.setData(dados.novaData());
+        consultaRepository.save(consulta);
+
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
 }

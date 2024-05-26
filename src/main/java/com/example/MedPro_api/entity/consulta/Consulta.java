@@ -3,16 +3,14 @@ package com.example.MedPro_api.entity.consulta;
 import com.example.MedPro_api.entity.medico.Medico;
 import com.example.MedPro_api.entity.paciente.Paciente;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Table(name = "consultas")
 @Entity(name = "Consulta")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

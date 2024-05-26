@@ -1,8 +1,6 @@
 package com.example.MedPro_api.controller.consulta;
 
-import com.example.MedPro_api.DTO.consulta.AgendaDeConsultas;
-import com.example.MedPro_api.DTO.consulta.DadosAgendamentoConsulta;
-import com.example.MedPro_api.DTO.consulta.DadosListagemConsulta;
+import com.example.MedPro_api.DTO.consulta.*;
 import com.example.MedPro_api.entity.consulta.Consulta;
 import com.example.MedPro_api.repository.consulta.ConsultaRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,5 +62,13 @@ public class ConsultaController {
         List<DadosListagemConsulta> resultado = consultas.stream().map(DadosListagemConsulta::new).collect(Collectors.toList());
         return ResponseEntity.ok(resultado);
     }
+    @PutMapping
+    @Transactional
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<DadosDetalhamentoConsulta> atualizar(@RequestBody @Valid DadosAtualizacaoConsulta dados) {
+        var dto = agendar.atualizarConsulta(dados);
+        return ResponseEntity.ok(dto);
+    }
+
 
 }
