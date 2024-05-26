@@ -3,18 +3,18 @@ package com.example.MedPro_api.DTO.medico;
 
 public class DadosLoginMedico {
     private String token;
-    private boolean medico;
+    private String tipo;
 
-    public DadosLoginMedico(String token, boolean medico) {
+    public DadosLoginMedico(String token, String medico) {
         this.token = token;
-        this.medico = medico;
+        this.tipo = medico;
     }
 
     public String getToken() {
         return token;
     }
 
-    public boolean isMedico() {
-        return medico;
+    public String getTipo() {
+        return tipo;
     }
 }

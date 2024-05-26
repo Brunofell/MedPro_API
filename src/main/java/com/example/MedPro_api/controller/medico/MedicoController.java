@@ -106,7 +106,7 @@ public class MedicoController {
 
         var tokenJWT = tokenServiceMedico.gerarToken((Medico) authentication.getPrincipal());
 
-        var respostaLogin = new DadosLoginMedico(tokenJWT, true);
+        var respostaLogin = new DadosLoginMedico(tokenJWT, "medico");
 
         return ResponseEntity.ok(respostaLogin);
     }
