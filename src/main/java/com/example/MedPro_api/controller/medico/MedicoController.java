@@ -2,6 +2,7 @@ package com.example.MedPro_api.controller.medico;
 
 import com.example.MedPro_api.DTO.medico.DadosCadastroMedico;
 import com.example.MedPro_api.DTO.medico.DadosListagemMedico;
+import com.example.MedPro_api.DTO.medico.DadosLoginMedico;
 import com.example.MedPro_api.DTO.medico.DadosUpdateMedico;
 import com.example.MedPro_api.DTO.paciente.DadosListagemPaciente;
 import com.example.MedPro_api.entity.medico.Medico;
@@ -99,13 +100,15 @@ public class MedicoController {
     }
 
     @PostMapping("login")
-    public ResponseEntity login( @RequestBody @Valid DadosAuthMedico dadosAuthMedico){
+    public ResponseEntity<DadosLoginMedico> login(@RequestBody @Valid DadosAuthMedico dadosAuthMedico){
         var authToken = new UsernamePasswordAuthenticationToken(dadosAuthMedico.email(), dadosAuthMedico.senha());
-        var authentication =   manager.authenticate(authToken);
+        var authentication = manager.authenticate(authToken);
 
         var tokenJWT = tokenServiceMedico.gerarToken((Medico) authentication.getPrincipal());
 
-        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+        var respostaLogin = new DadosLoginMedico(tokenJWT, true);
+
+        return ResponseEntity.ok(respostaLogin);
     }
 
     @GetMapping("/{id}")

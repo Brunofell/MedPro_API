@@ -2,12 +2,12 @@ package com.example.MedPro_api.controller.paciente;
 
 import com.example.MedPro_api.DTO.paciente.DadosCadastroPaciente;
 import com.example.MedPro_api.DTO.paciente.DadosListagemPaciente;
+import com.example.MedPro_api.DTO.paciente.DadosLoginPaciente;
 import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
 import com.example.MedPro_api.entity.paciente.Paciente;
 import com.example.MedPro_api.infra.Exception.EmailDuplicadoException;
 import com.example.MedPro_api.infra.Exception.EmailValidationService;
 import com.example.MedPro_api.infra.security.authPaciente.DadosAuth;
-import com.example.MedPro_api.infra.security.authPaciente.DadosTokenJWT;
 import com.example.MedPro_api.infra.security.authPaciente.TokenServicePaciente;
 import com.example.MedPro_api.repository.paciente.PacienteRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -92,14 +92,17 @@ public class PacienteController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody DadosAuth dados){
+    public ResponseEntity<DadosLoginPaciente> login(@Valid @RequestBody DadosAuth dados){
         var authToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
         var authentication = manager.authenticate(authToken);
 
         var tokenJWT = tokenService.gerarToken((Paciente) authentication.getPrincipal());
 
-        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+        var respostaLogin = new DadosLoginPaciente(tokenJWT, true);
+
+        return ResponseEntity.ok(respostaLogin);
     }
+
 
     @GetMapping("/{id}")
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
