@@ -2,14 +2,11 @@ package com.example.MedPro_api.entity.paciente;
 
 import com.example.MedPro_api.DTO.paciente.DadosCadastroPaciente;
 import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
-import com.example.MedPro_api.entity.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,8 +28,7 @@ public class Paciente implements UserDetails {
     private String senha;
     private String telefone;
     private  String cpf;
-    @Embedded
-    private Endereco endereco;
+    private String endereco;
 
     public Paciente(DadosCadastroPaciente dados) {
         this.nome = dados.nome();
@@ -40,7 +36,7 @@ public class Paciente implements UserDetails {
         this.senha = dados.senha();
         this.telefone = dados.telefone();
         this.cpf = dados.cpf();
-        this.endereco = new Endereco(dados.endereco());
+        this.endereco = dados.endereco();
     }
 
     public void atualizarInfos(DadosUpdatePaciente dados) {
@@ -60,7 +56,7 @@ public class Paciente implements UserDetails {
             this.cpf = dados.cpf();
         }
         if(dados.endereco() != null){
-            this.endereco.atualizaEndereco(dados.endereco());
+            this.endereco = dados.endereco();
         }
     }
 

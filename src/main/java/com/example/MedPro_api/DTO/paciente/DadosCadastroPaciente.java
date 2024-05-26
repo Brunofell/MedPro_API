@@ -18,8 +18,7 @@ public record DadosCadastroPaciente(
         String telefone,
         @Pattern(regexp = "\\d{11}")
         String cpf,
-        @NotNull
-        @Valid // validar o outro obj
-        DadosEndereco endereco
+        @NotBlank
+        String endereco
         ) {
 }

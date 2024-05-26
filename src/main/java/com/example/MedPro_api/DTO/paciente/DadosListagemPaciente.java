@@ -1,17 +1,15 @@
 package com.example.MedPro_api.DTO.paciente;
 
-import com.example.MedPro_api.entity.Endereco;
 import com.example.MedPro_api.entity.paciente.Paciente;
 
 public record DadosListagemPaciente(
         Long id,
-
         String nome,
         String email,
         String senha,
         String telefone,
         String cpf,
-        Endereco endereco
+        String endereco
 ) {
 
     public DadosListagemPaciente(Paciente paciente){

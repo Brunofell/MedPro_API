@@ -3,7 +3,6 @@ package com.example.MedPro_api.entity.medico;
 import com.example.MedPro_api.DTO.medico.DadosCadastroMedico;
 import com.example.MedPro_api.DTO.medico.DadosUpdateMedico;
 import com.example.MedPro_api.DTO.medico.Especialidade;
-import com.example.MedPro_api.entity.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,8 +31,7 @@ public class Medico implements UserDetails {
     private String telefone;
     private String crm;
     private Especialidade especialidade;
-    @Embedded
-    private Endereco endereco;
+    private String endereco;
     private boolean ativo;
 
     public Medico(DadosCadastroMedico dados) {
@@ -44,7 +42,7 @@ public class Medico implements UserDetails {
         this.telefone = dados.telefone();
         this.crm = dados.crm();
         this.especialidade = dados.especialidade();
-        this.endereco = new Endereco(dados.endereco());
+        this.endereco = dados.endereco();
     }
 
     public void atualizarInfos(DadosUpdateMedico dados) {
@@ -67,7 +65,7 @@ public class Medico implements UserDetails {
             this.especialidade = dados.especialidade();
         }
         if(dados.endereco() != null){
-            this.endereco.atualizaEndereco(dados.endereco());
+            this.endereco = dados.endereco();
         }
     }
 

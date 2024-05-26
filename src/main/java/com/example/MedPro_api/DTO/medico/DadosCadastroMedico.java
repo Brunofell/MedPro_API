@@ -1,6 +1,5 @@
 package com.example.MedPro_api.DTO.medico;
 
-import com.example.MedPro_api.DTO.paciente.DadosEndereco;
 
 public record DadosCadastroMedico(
 
@@ -10,7 +9,7 @@ public record DadosCadastroMedico(
         String telefone,
         String crm,
         Especialidade especialidade,
-        DadosEndereco endereco
+        String endereco
 
 ) {
 
