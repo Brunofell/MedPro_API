@@ -96,9 +96,10 @@ public class PacienteController {
         var authToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
         var authentication = manager.authenticate(authToken);
 
-        var tokenJWT = tokenService.gerarToken((Paciente) authentication.getPrincipal());
+        var paciente = (Paciente) authentication.getPrincipal();
+        var tokenJWT = tokenService.gerarToken(paciente);
 
-        var respostaLogin = new DadosLoginPaciente(tokenJWT, "paciente");
+        var respostaLogin = new DadosLoginPaciente(tokenJWT, "paciente", paciente.getId());
 
         return ResponseEntity.ok(respostaLogin);
     }

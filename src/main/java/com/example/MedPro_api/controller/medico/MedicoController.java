@@ -104,9 +104,10 @@ public class MedicoController {
         var authToken = new UsernamePasswordAuthenticationToken(dadosAuthMedico.email(), dadosAuthMedico.senha());
         var authentication = manager.authenticate(authToken);
 
+        var medico = (Medico) authentication.getPrincipal();
         var tokenJWT = tokenServiceMedico.gerarToken((Medico) authentication.getPrincipal());
 
-        var respostaLogin = new DadosLoginMedico(tokenJWT, "medico");
+        var respostaLogin = new DadosLoginMedico(tokenJWT, "medico", medico.getId());
 
         return ResponseEntity.ok(respostaLogin);
     }
