@@ -32,6 +32,7 @@ public class SecurityConfigurations {
                             req.requestMatchers("/pacientes/cadastro").permitAll();
                             req.requestMatchers("/medicos/login").permitAll();
                             req.requestMatchers("/medicos/cadastro").permitAll();
+                            req.requestMatchers("/api/relatorio").permitAll(); // ??????
                             req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                             req.anyRequest().authenticated()
                             ;
