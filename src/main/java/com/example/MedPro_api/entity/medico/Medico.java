@@ -68,9 +68,6 @@ public class Medico implements UserDetails {
         if(dados.endereco() != null){
             this.endereco = dados.endereco();
         }
-        if(dados.imagem() != null){
-            this.imagem = dados.imagem();
-        }
     }
 
     public void excluir() {

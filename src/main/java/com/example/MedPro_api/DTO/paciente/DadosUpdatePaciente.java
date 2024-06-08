@@ -10,7 +10,6 @@ public record DadosUpdatePaciente(
         String senha,
         String telefone,
         String cpf,
-        String endereco,
-        String imagem
+        String endereco
 ) {
 }

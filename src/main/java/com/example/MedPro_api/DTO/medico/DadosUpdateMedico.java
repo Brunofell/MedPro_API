@@ -11,7 +11,6 @@ public record DadosUpdateMedico (
         String telefone,
         String crm,
         Especialidade especialidade,
-        String endereco,
-        String imagem
+        String endereco
 ){
 }
