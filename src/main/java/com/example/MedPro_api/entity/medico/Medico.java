@@ -33,6 +33,7 @@ public class Medico implements UserDetails {
     private Especialidade especialidade;
     private String endereco;
     private boolean ativo;
+    private String imagem;
 
     public Medico(DadosCadastroMedico dados) {
         this.ativo = true;
@@ -66,6 +67,9 @@ public class Medico implements UserDetails {
         }
         if(dados.endereco() != null){
             this.endereco = dados.endereco();
+        }
+        if(dados.imagem() != null){
+            this.imagem = dados.imagem();
         }
     }
 

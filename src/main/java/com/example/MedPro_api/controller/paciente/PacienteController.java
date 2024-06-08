@@ -1,15 +1,17 @@
 package com.example.MedPro_api.controller.paciente;
 
-import com.example.MedPro_api.DTO.paciente.DadosCadastroPaciente;
-import com.example.MedPro_api.DTO.paciente.DadosListagemPaciente;
-import com.example.MedPro_api.DTO.paciente.DadosLoginPaciente;
-import com.example.MedPro_api.DTO.paciente.DadosUpdatePaciente;
+import com.example.MedPro_api.DTO.ImagemPerfilDTO;
+import com.example.MedPro_api.DTO.paciente.*;
 import com.example.MedPro_api.entity.paciente.Paciente;
 import com.example.MedPro_api.infra.Exception.EmailDuplicadoException;
 import com.example.MedPro_api.infra.Exception.EmailValidationService;
 import com.example.MedPro_api.infra.security.authPaciente.DadosAuth;
 import com.example.MedPro_api.infra.security.authPaciente.TokenServicePaciente;
 import com.example.MedPro_api.repository.paciente.PacienteRepository;
+import com.google.cloud.storage.Acl;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.firebase.cloud.StorageClient;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
@@ -20,7 +22,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,4 +119,47 @@ public class PacienteController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/image/{id}")
+    @Transactional
+    public ResponseEntity<String> uploadImagem(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
+        Paciente paciente = repository.findById(id).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        // Deletar a foto antiga se existir
+        if (paciente.getImagem() != null && !paciente.getImagem().isEmpty()) {
+            String oldFileName = paciente.getImagem().substring(paciente.getImagem().lastIndexOf("/") + 1);
+            Bucket bucket = StorageClient.getInstance().bucket();
+            Blob oldBlob = bucket.get(oldFileName);
+            if (oldBlob != null) {
+                oldBlob.delete();
+            }
+        }
+
+        // Upload da nova foto para o Firebase Storage
+        Bucket bucket = StorageClient.getInstance().bucket();
+        Blob blob = bucket.create(file.getOriginalFilename(), file.getInputStream(), file.getContentType());
+
+        // Tornar o arquivo publicamente acessível
+        blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
+
+        String imageUrl = String.format("https://storage.googleapis.com/%s/%s", bucket.getName(), blob.getName());
+        paciente.setImagem(imageUrl);
+        repository.save(paciente);
+
+        return ResponseEntity.ok("Imagem de perfil atualizada com sucesso!");
+    }
+
+    @GetMapping("/image/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<ImagemPerfilDTO> getImagemPerfil(@PathVariable Long id) {
+        Optional<Paciente> pacienteOptional = repository.findById(id);
+        if (pacienteOptional.isPresent()) {
+            String imageUrl = pacienteOptional.get().getImagem();
+            ImagemPerfilDTO imagemPerfilDTO = new ImagemPerfilDTO(imageUrl);
+            return ResponseEntity.ok(imagemPerfilDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

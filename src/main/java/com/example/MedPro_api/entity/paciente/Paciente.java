@@ -29,6 +29,7 @@ public class Paciente implements UserDetails {
     private String telefone;
     private  String cpf;
     private String endereco;
+    private String imagem;
 
     public Paciente(DadosCadastroPaciente dados) {
         this.nome = dados.nome();
@@ -57,6 +58,9 @@ public class Paciente implements UserDetails {
         }
         if(dados.endereco() != null){
             this.endereco = dados.endereco();
+        }
+        if(dados.imagem() != null){
+            this.imagem = dados.imagem();
         }
     }
 
