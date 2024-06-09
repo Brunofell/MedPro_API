@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,11 +26,11 @@ public class AgendaDeConsultas {
     @Autowired
     private List<ValidadorAgendamentoDeConsulta> validadores;
 
-    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados){
-        if(!pacienteRepository.existsById(dados.idPaciente())){
+    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
+        if (!pacienteRepository.existsById(dados.idPaciente())) {
             throw new ValidacaoException("Id do paciente informado não existe");
         }
-        if(dados.idMedico() != null &&!medicoRepository.existsById(dados.idMedico())){
+        if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
             throw new ValidacaoException("Id do medico informado não existe");
         }
 
@@ -37,18 +38,17 @@ public class AgendaDeConsultas {
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
-        // var medico = medicoRepository.getReferenceById(dados.idMedico());;
-        var consulta = new Consulta(null, medico, paciente, dados.data());
+        var consulta = new Consulta(medico, paciente, dados.data());
         consultaRepository.save(consulta);
 
         return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
-        if(dados.idMedico() != null){
+        if (dados.idMedico() != null) {
             return medicoRepository.getReferenceById(dados.idMedico());
         }
-        if(dados.especialidade() == null){
+        if (dados.especialidade() == null) {
             throw new ValidacaoException("Especialidade é obrigatória quando médico não for escolhido.");
         }
 
@@ -56,18 +56,26 @@ public class AgendaDeConsultas {
     }
 
     @Transactional
-    public DadosDetalhamentoConsulta atualizarConsulta(DadosAtualizacaoConsulta dados) {
-        var consulta = consultaRepository.findById(dados.idConsulta())
+    public DadosDetalhamentoConsulta atualizarHorarioConsulta(Long idConsulta, LocalDateTime novaData) {
+        var consulta = consultaRepository.findById(idConsulta)
                 .orElseThrow(() -> new ValidacaoException("Consulta não encontrada"));
 
-        var dadosAgendamento = new DadosAgendamentoConsulta(consulta.getMedico().getId(), consulta.getPaciente().getId(), null, dados.novaData());
+        var dadosAgendamento = new DadosAgendamentoConsulta(
+                consulta.getMedico().getId(),
+                consulta.getPaciente().getId(),
+                consulta.getMedico().getEspecialidade(),
+                consulta.getMedico().getNome(),
+                novaData
+        );
 
         validadores.forEach(v -> v.validar(dadosAgendamento)); // chamando os validadores
 
-        consulta.setData(dados.novaData());
+        consulta.setData(novaData);
         consultaRepository.save(consulta);
 
         return new DadosDetalhamentoConsulta(consulta);
     }
 
 }
+
+

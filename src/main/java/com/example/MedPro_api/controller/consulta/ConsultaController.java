@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("consultas")
 public class ConsultaController {
@@ -62,11 +61,12 @@ public class ConsultaController {
         List<DadosListagemConsulta> resultado = consultas.stream().map(DadosListagemConsulta::new).collect(Collectors.toList());
         return ResponseEntity.ok(resultado);
     }
+
     @PutMapping
     @Transactional
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<DadosDetalhamentoConsulta> atualizar(@RequestBody @Valid DadosAtualizacaoConsulta dados) {
-        var dto = agendar.atualizarConsulta(dados);
+    public ResponseEntity<DadosDetalhamentoConsulta> atualizarHorario(@RequestBody @Valid DadosAtualizacaoConsulta dados) {
+        var dto = agendar.atualizarHorarioConsulta(dados.idConsulta(), dados.novaData());
         return ResponseEntity.ok(dto);
     }
 
