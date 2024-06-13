@@ -31,6 +31,7 @@ public class Consulta {
 
     private String especialidade;
     private String nome;
+    private String nomePaciente;  // Adicionado campo para nome do paciente
 
     public Consulta(Medico medico, Paciente paciente, LocalDateTime data) {
         this.medico = medico;
@@ -38,5 +39,6 @@ public class Consulta {
         this.data = data;
         this.especialidade = medico.getEspecialidade().toString();
         this.nome = medico.getNome();
+        this.nomePaciente = paciente.getNome();  // Inicializando nome do paciente
     }
 }

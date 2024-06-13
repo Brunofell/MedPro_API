@@ -8,13 +8,14 @@ import java.time.LocalDateTime;
 public record DadosDetalhamentoConsulta(
         Long id,
         Long idMedico,
-        String nomeMedico,
+        String nome,
         Especialidade especialidade,
         Long idPaciente,
+        String nomePaciente,  // Adicionado campo para nome do paciente
         LocalDateTime data
 ) {
 
     public DadosDetalhamentoConsulta(Consulta consulta) {
-        this(consulta.getId(), consulta.getMedico().getId(), consulta.getNome(), consulta.getMedico().getEspecialidade(), consulta.getPaciente().getId(), consulta.getData());
+        this(consulta.getId(), consulta.getMedico().getId(), consulta.getNome(), consulta.getMedico().getEspecialidade(), consulta.getPaciente().getId(), consulta.getNomePaciente(), consulta.getData());
     }
 }

@@ -64,7 +64,6 @@ public class AgendaDeConsultas {
                 consulta.getMedico().getId(),
                 consulta.getPaciente().getId(),
                 consulta.getMedico().getEspecialidade(),
-                consulta.getMedico().getNome(),
                 novaData
         );
 
