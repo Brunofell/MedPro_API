@@ -1,6 +1,7 @@
 package com.example.MedPro_api.controller.paciente;
 
 import com.example.MedPro_api.DTO.ImagemPerfilDTO;
+import com.example.MedPro_api.DTO.medico.DadosListagemMedico;
 import com.example.MedPro_api.DTO.paciente.*;
 import com.example.MedPro_api.entity.paciente.Paciente;
 import com.example.MedPro_api.infra.Exception.EmailDuplicadoException;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,10 +62,10 @@ public class PacienteController {
         repository.save(paciente);
     }
 
-    @GetMapping
+    @GetMapping // Exclusão lógica
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
-    public List<DadosListagemPaciente> listarPaciente() {
-        return repository.findAll().stream().map(DadosListagemPaciente::new).toList();
+    public List<DadosListagemPaciente> listar(){
+        return repository.findAllByAtivoTrue().stream().map(DadosListagemPaciente::new).toList();
     }
 
     @PutMapping
@@ -92,8 +94,10 @@ public class PacienteController {
     @Transactional
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public void excluir(@PathVariable Long id){
-        repository.deleteById(id);
+        var paciente = repository.getReferenceById(id);
+        paciente.excluir();
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<DadosLoginPaciente> login(@Valid @RequestBody DadosAuth dados){
@@ -101,15 +105,17 @@ public class PacienteController {
         var authentication = manager.authenticate(authToken);
 
         var paciente = (Paciente) authentication.getPrincipal();
+
+        if (!paciente.isAtivo()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         var tokenJWT = tokenService.gerarToken(paciente);
-
         var respostaLogin = new DadosLoginPaciente(tokenJWT, paciente.getNome(), "paciente", paciente.getId());
-
-        System.out.println(paciente.getId());
-        System.out.println(paciente.getNome());
 
         return ResponseEntity.ok(respostaLogin);
     }
+
 
 
     @GetMapping("/{id}")

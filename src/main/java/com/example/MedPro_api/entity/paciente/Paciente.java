@@ -29,9 +29,11 @@ public class Paciente implements UserDetails {
     private String telefone;
     private  String cpf;
     private String endereco;
+    private boolean ativo;
     private String imagem;
 
     public Paciente(DadosCadastroPaciente dados) {
+        this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
         this.senha = dados.senha();
@@ -41,6 +43,9 @@ public class Paciente implements UserDetails {
     }
     public String getNome() {
         return nome;
+    }
+    public void excluir() {
+        this.ativo = false;
     }
 
 
