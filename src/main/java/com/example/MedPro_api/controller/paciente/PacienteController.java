@@ -103,7 +103,10 @@ public class PacienteController {
         var paciente = (Paciente) authentication.getPrincipal();
         var tokenJWT = tokenService.gerarToken(paciente);
 
-        var respostaLogin = new DadosLoginPaciente(tokenJWT, "paciente", paciente.getId());
+        var respostaLogin = new DadosLoginPaciente(tokenJWT, paciente.getNome(), "paciente", paciente.getId());
+
+        System.out.println(paciente.getId());
+        System.out.println(paciente.getNome());
 
         return ResponseEntity.ok(respostaLogin);
     }

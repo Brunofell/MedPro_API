@@ -39,6 +39,10 @@ public class Paciente implements UserDetails {
         this.cpf = dados.cpf();
         this.endereco = dados.endereco();
     }
+    public String getNome() {
+        return nome;
+    }
+
 
     public void atualizarInfos(DadosUpdatePaciente dados) {
         if(dados.nome() != null){
