@@ -1,24 +1,24 @@
-# MEDPRO - API 
+# MEDPRO - API  
 
-Esta é a API avançada para o projeto **MEDPRO**, uma plataforma dedicada à gestão de prontuários médicos. A API foi desenvolvida em **Java Spring Boot** com integração a um banco de dados **PostgreSQL**, oferecendo segurança com autenticação JWT e documentação completa via Swagger.
+This is the advanced API for the **MEDPRO** project, a platform dedicated to managing medical records. The API was developed using **Java Spring Boot** with integration to a **PostgreSQL** database, offering security through JWT authentication and complete documentation via Swagger.  
 
-Durante o desenvolvimento, a API foi temporariamente hospedada na AWS para validações em ambiente de produção. No entanto, optamos por descontinuar a hospedagem para focar em outros aspectos do projeto e otimizar o uso de recursos.
+During development, the API was temporarily hosted on AWS for production environment validation. However, we decided to discontinue hosting to focus on other aspects of the project and optimize resource usage.  
 
-## Funcionalidades
+## Features  
 
-- **Autenticação JWT:** Segurança avançada para proteger dados médicos/pacientes sensíveis.
-- **Gerenciamento de Prontuários Médicos:** CRUD completo para o gerenciamento de prontuários.
-- **Controle de Pacientes e Médicos:** Funções para gerenciar informações de pacientes e médicos.
-- **Swagger UI:** Documentação interativa da API.
-- **PostgreSQL**: Banco de dados para armazenamento seguro e persistente.
-- **CRUD COMPLETO PARA MÉDICOS, PACIENTES E CONSULTAS**
+- **JWT Authentication:** Advanced security to protect sensitive medical/patient data.  
+- **Medical Records Management:** Full CRUD operations for managing medical records.  
+- **Patient and Doctor Management:** Functions to handle patient and doctor information.  
+- **Swagger UI:** Interactive API documentation.  
+- **PostgreSQL:** Database for secure and persistent storage.  
+- **Full CRUD for Doctors, Patients, and Appointments**  
 
-## Tecnologias Utilizadas
+## Technologies Used  
 
-- **Java** (vXX) - Linguagem principal da aplicação.
-- **Spring Boot** (vXX) - Framework para construção da API.
-- **Spring Security + JWT** - Para autenticação e autorização de usuários.
-- **PostgreSQL** - Banco de dados relacional.
-- **Spring Data JPA** - Para facilitar o acesso ao banco de dados.
-- **Swagger** - Ferramenta para documentação da API.
-- **Maven** - Gerenciamento de dependências e build.
+- **Java** (vXX) - Main programming language.  
+- **Spring Boot** (vXX) - Framework for building the API.  
+- **Spring Security + JWT** - For user authentication and authorization.  
+- **PostgreSQL** - Relational database.  
+- **Spring Data JPA** - Simplifies database access.  
+- **Swagger** - Tool for API documentation.  
+- **Maven** - Dependency and build management.  
